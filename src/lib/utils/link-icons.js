@@ -1,4 +1,4 @@
-import { validSlugs } from './simple-icons-slugs.js'
+import { validSlugs } from 'virtual:simple-icons-slugs'
 
 // Map of URL hostname patterns to simple-icons slugs
 const domainToSlug = {

@@ -1,6 +1,6 @@
 <script>
     import '@fontsource-variable/geist-mono'
-    import './lib/styles/simple-icons.css'
+    import 'virtual:simple-icons.css'
     import { settings } from './lib/stores/settings-store.svelte.js'
     import { defaultTheme, defaultCustomColors } from './lib/config/themes.js'
     import Clock from './lib/components/Clock.svelte'

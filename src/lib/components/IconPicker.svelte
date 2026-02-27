@@ -1,5 +1,5 @@
 <script>
-    import { validSlugs } from '../utils/simple-icons-slugs.js'
+    import { validSlugs } from 'virtual:simple-icons-slugs'
     import { tick } from 'svelte'
 
     let { icon = '', onselect } = $props()
