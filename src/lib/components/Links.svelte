@@ -36,6 +36,9 @@
                             <span class="prefix">></span>
                         {/if}
                         {link.title}
+                        {#if link.hotkey}
+                            <span class="hotkey">[{link.hotkey}]</span>
+                        {/if}
                     </a>
                     <br />
                 {/each}
@@ -69,5 +72,10 @@
     }
     .column {
         flex-grow: 1;
+    }
+    .hotkey {
+        color: var(--txt-3);
+        font-size: 0.75rem;
+        margin-left: 0.25rem;
     }
 </style>

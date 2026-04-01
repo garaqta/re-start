@@ -97,29 +97,6 @@
         }
     }
 
-    function handleGlobalKeydown(event) {
-        // Only auto-focus if:
-        // 1. No input, textarea, or contenteditable element is currently focused
-        // 2. The key is a printable character (not a modifier or special key)
-        const activeElement = document.activeElement
-        const isInputFocused =
-            activeElement?.tagName === 'INPUT' ||
-            activeElement?.tagName === 'TEXTAREA' ||
-            (activeElement instanceof HTMLElement &&
-                activeElement.isContentEditable)
-
-        if (
-            addTaskComponent &&
-            !isInputFocused &&
-            event.key.length === 1 && // Printable character
-            !event.ctrlKey &&
-            !event.metaKey &&
-            !event.altKey
-        ) {
-            addTaskComponent.focus()
-        }
-    }
-
     $effect(() => {
         const backend = settings.taskBackend
         const token = settings.todoistApiToken
@@ -388,12 +365,10 @@
     onMount(() => {
         initializeAPI(settings.taskBackend, settings.todoistApiToken)
         document.addEventListener('visibilitychange', handleVisibilityChange)
-        document.addEventListener('keydown', handleGlobalKeydown)
     })
 
     onDestroy(() => {
         document.removeEventListener('visibilitychange', handleVisibilityChange)
-        document.removeEventListener('keydown', handleGlobalKeydown)
     })
 </script>
 

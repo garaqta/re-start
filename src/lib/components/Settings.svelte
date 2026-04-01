@@ -102,7 +102,7 @@
     }
 
     function addLink() {
-        settings.links = [...settings.links, { title: '', url: '', icon: '' }]
+        settings.links = [...settings.links, { title: '', url: '', icon: '', hotkey: '' }]
     }
 
     function removeLink(index) {
@@ -117,6 +117,24 @@
     function handleKeydown(event) {
         if (event.key === 'Escape') {
             handleClose()
+            return
+        }
+
+        if (!showSettings) return
+
+        const target = event.target
+        const isTypingField = target.tagName === 'INPUT' || 
+                              target.tagName === 'TEXTAREA' || 
+                              target.isContentEditable
+
+        if (isTypingField) return
+
+        const key = event.key
+        const link = settings.links.find((l) => l.hotkey === key)
+        if (link && link.url) {
+            event.preventDefault()
+            event.stopPropagation()
+            window.open(link.url, settings.linkTarget || '_self')
         }
     }
 
@@ -703,6 +721,18 @@
                                 class="link-input"
                                 draggable="false"
                             />
+                            <input
+                                type="text"
+                                bind:value={link.hotkey}
+                                placeholder="key"
+                                class="link-input hotkey"
+                                maxlength="1"
+                                draggable="false"
+                                oninput={(e) => {
+                                    link.hotkey = e.target.value.slice(-1)
+                                    saveSettings(settings)
+                                }}
+                            />
                             <button
                                 class="remove-btn"
                                 onclick={() => removeLink(index)}
@@ -958,8 +988,20 @@
         font-size: 0.875rem;
     }
     .link .link-input.name {
-        width: 8rem;
+        width: 6rem;
         margin-right: 0.5rem;
+        flex-shrink: 0;
+    }
+    .link .link-input:not(.name):not(.hotkey) {
+        flex: 1;
+        min-width: 0;
+        margin-right: 0.5rem;
+    }
+    .link .link-input.hotkey {
+        width: 2rem;
+        margin-right: 0.5rem;
+        text-align: center;
+        flex-shrink: 0;
     }
     .remove-btn {
         padding: 0 0.25rem 0 0.5rem;

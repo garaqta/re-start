@@ -11,6 +11,9 @@ const manifest = JSON.parse(fs.readFileSync('./public/manifest.json', 'utf-8'))
 // https://vite.dev/config/
 export default defineConfig({
     base: './',
+    server: {
+        open: false,
+    },
     plugins: [
         simpleIconsVirtualModules(),
         svelte(),

@@ -30,6 +30,26 @@
         showSettings = false
     }
 
+    function handleGlobalKeydown(event) {
+        if (showSettings) return
+        if (event.defaultPrevented) return
+
+        const target = event.target
+        const isTypingField = target.tagName === 'INPUT' || 
+                              target.tagName === 'TEXTAREA' || 
+                              target.isContentEditable
+
+        if (isTypingField) return
+
+        const key = event.key
+        const link = settings.links.find((l) => l.hotkey === key)
+        if (link && link.url) {
+            event.preventDefault()
+            event.stopPropagation()
+            window.open(link.url, settings.linkTarget || '_self')
+        }
+    }
+
     function applyTheme(themeName) {
         document.documentElement.className =
             'theme-' + (themeName || defaultTheme)
@@ -93,6 +113,8 @@
         saveSettings(settings)
     })
 </script>
+
+<svelte:window on:keydown={handleGlobalKeydown} />
 
 <main>
     <div class="container">
