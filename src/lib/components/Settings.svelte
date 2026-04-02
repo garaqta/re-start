@@ -134,7 +134,12 @@
         if (link && link.url) {
             event.preventDefault()
             event.stopPropagation()
-            window.open(link.url, settings.linkTarget || '_self')
+            const target = settings.linkTarget || '_self'
+            if (target === '_blank') {
+                window.open(link.url, target, 'noopener,noreferrer')
+            } else {
+                window.open(link.url, target)
+            }
         }
     }
 
