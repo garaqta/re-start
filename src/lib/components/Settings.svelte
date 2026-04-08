@@ -106,7 +106,10 @@
     }
 
     function addLink() {
-        settings.links = [...settings.links, { title: '', url: '', icon: '' }]
+        settings.links = [
+            ...settings.links,
+            { title: '', url: '', icon: '', hotkey: '' },
+        ]
     }
 
     function removeLink(index) {
@@ -119,6 +122,7 @@
     }
 
     function handleKeydown(event) {
+        if (!showSettings) return
         if (event.key === 'Escape') {
             handleClose()
         }
@@ -306,7 +310,7 @@
     })
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} />
 
 {#if showSettings}
     <div
@@ -630,6 +634,39 @@
                 </div>
             </div>
             <div class="group">
+                <div class="setting-label">link hotkeys</div>
+                <div class="radio-group">
+                    <RadioButton bind:group={settings.linkHotkeys} value={true}>
+                        on
+                    </RadioButton>
+                    <RadioButton
+                        bind:group={settings.linkHotkeys}
+                        value={false}
+                    >
+                        off
+                    </RadioButton>
+                </div>
+            </div>
+            {#if settings.linkHotkeys}
+                <div class="group">
+                    <div class="setting-label">hotkey hint position</div>
+                    <div class="radio-group">
+                        <RadioButton
+                            bind:group={settings.linkHotkeyPosition}
+                            value="left"
+                        >
+                            left
+                        </RadioButton>
+                        <RadioButton
+                            bind:group={settings.linkHotkeyPosition}
+                            value="right"
+                        >
+                            right
+                        </RadioButton>
+                    </div>
+                </div>
+            {/if}
+            <div class="group">
                 <div class="setting-label">link icons</div>
                 <div class="radio-group">
                     <RadioButton
@@ -643,6 +680,12 @@
                         value="arrow"
                     >
                         show &gt;
+                    </RadioButton>
+                    <RadioButton
+                        bind:group={settings.linkIconMode}
+                        value="none"
+                    >
+                        hide
                     </RadioButton>
                 </div>
             </div>
@@ -711,9 +754,33 @@
                                 bind:value={link.url}
                                 onchange={() => handleUrlChange(link)}
                                 placeholder="https://example.com"
-                                class="link-input"
+                                class="link-input url"
                                 draggable="false"
                             />
+                            {#if settings.linkHotkeys}
+                                <input
+                                    type="text"
+                                    bind:value={link.hotkey}
+                                    placeholder="⌘"
+                                    class="link-input hotkey"
+                                    maxlength="1"
+                                    draggable="false"
+                                    oninput={(e) => {
+                                        const key = e.target.value.slice(-1)
+                                        if (key) {
+                                            for (const other of settings.links) {
+                                                if (
+                                                    other !== link &&
+                                                    other.hotkey === key
+                                                ) {
+                                                    other.hotkey = ''
+                                                }
+                                            }
+                                        }
+                                        link.hotkey = key
+                                    }}
+                                />
+                            {/if}
                             <button
                                 class="remove-btn"
                                 onclick={() => removeLink(index)}
@@ -969,8 +1036,19 @@
         font-size: 0.875rem;
     }
     .link .link-input.name {
-        width: 8rem;
+        width: 6rem;
         margin-right: 0.5rem;
+        flex-shrink: 0;
+    }
+    .link .link-input.url {
+        flex: 1;
+        min-width: 0;
+        margin-right: 0.5rem;
+    }
+    .link .link-input.hotkey {
+        width: 2rem;
+        text-align: center;
+        flex-shrink: 0;
     }
     .remove-btn {
         padding: 0 0.25rem 0 0.5rem;
