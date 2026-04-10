@@ -47,7 +47,6 @@
                             <span class="hotkey right">[{link.hotkey}]</span>
                         {/if}
                     </a>
-                    <br />
                 {/each}
             </div>
         {/each}
