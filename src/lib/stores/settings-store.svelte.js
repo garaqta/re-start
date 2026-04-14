@@ -38,98 +38,48 @@ let defaultSettings = {
     tempUnit: 'fahrenheit',
     speedUnit: 'mph',
     forecastMode: 'hourly',
-    linksPerColumn: 4,
+    linksPerColumn: 2,
     linkTarget: '_self',
     linkHotkeys: false,
     linkHotkeyPosition: 'right',
     linkIconMode: 'icons',
     links: [
-        {
-            title: 'gmail',
-            url: 'https://mail.google.com',
-            icon: 'gmail',
-            hotkey: 'g',
-        },
-        {
-            title: 'calendar',
-            url: 'https://calendar.google.com',
-            icon: 'googlecalendar',
-            hotkey: 'c',
-        },
-        {
-            title: 'drive',
-            url: 'https://drive.google.com',
-            icon: 'googledrive',
-            hotkey: 'd',
-        },
-        {
-            title: 'docs',
-            url: 'https://docs.google.com',
-            icon: 'googledocs',
-            hotkey: 'o',
-        },
-        {
-            title: 'github',
-            url: 'https://github.com',
-            icon: 'github',
-            hotkey: 'i',
-        },
-        { title: 'slack', url: 'https://slack.com', icon: '', hotkey: 's' },
-        {
-            title: 'keep',
-            url: 'https://keep.google.com',
-            icon: 'googlekeep',
-            hotkey: 'k',
-        },
-        {
-            title: 'leetcode',
-            url: 'https://leetcode.com/problemset',
-            icon: 'leetcode',
-            hotkey: 'l',
-        },
-        {
-            title: 'perplexity',
-            url: 'https://perplexity.ai',
-            icon: 'perplexity',
-            hotkey: 'p',
-        },
-        {
-            title: 'claude',
-            url: 'https://claude.ai',
-            icon: 'claude',
-            hotkey: 'a',
-        },
-        {
-            title: 'gemini',
-            url: 'https://gemini.google.com/',
-            icon: 'googlegemini',
-            hotkey: 'e',
-        },
-        {
-            title: 'chatgpt',
-            url: 'https://chatgpt.com/',
-            icon: '',
-            hotkey: 'h',
-        },
-        {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            icon: 'youtube',
-            hotkey: 'y',
-        },
-        {
-            title: 'reddit',
-            url: 'https://reddit.com',
-            icon: 'reddit',
-            hotkey: 'r',
-        },
-        { title: 'twitter', url: 'https://x.com', icon: 'x', hotkey: 'x' },
-        {
-            title: 'feedly',
-            url: 'https://feedly.com',
-            icon: 'feedly',
-            hotkey: 'f',
-        },
+    {
+      "title": "gmail",
+      "url": "https://mail.google.com",
+      "icon": "gmail",
+      "hotkey": "g"
+    },
+    {
+      "title": "drive",
+      "url": "https://drive.google.com",
+      "icon": "googledrive",
+      "hotkey": "d"
+    },
+    {
+      "title": "docs",
+      "url": "https://docs.google.com",
+      "icon": "googledocs",
+      "hotkey": "o"
+    },
+    {
+      "title": "github",
+      "url": "https://github.com",
+      "icon": "github",
+      "hotkey": "i"
+    },
+    {
+      "title": "youtube",
+      "url": "https://youtube.com",
+      "icon": "youtube",
+      "hotkey": "y"
+    },
+    {
+      "title": "twitter",
+      "url": "https://x.com",
+      "icon": "x",
+      "hotkey": "x"
+    },
     ],
     customThemeColors: { ...defaultCustomColors },
     pingUrl: 'https://www.google.com/generate_204',

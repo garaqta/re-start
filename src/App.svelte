@@ -3,6 +3,8 @@
     import 'virtual:simple-icons.css'
     import { settings } from './lib/stores/settings-store.svelte.js'
     import { defaultTheme, defaultCustomColors } from './lib/config/themes.js'
+    import NotePage from './lib/components/NotePage.svelte'
+    import Sidebar from './lib/components/Sidebar.svelte'    
     import Clock from './lib/components/Clock.svelte'
     import Links from './lib/components/Links.svelte'
     import Settings from './lib/components/Settings.svelte'
@@ -14,6 +16,10 @@
     import iconSvg from '/public/icon.svg?raw'
 
     let showSettings = $state(false)
+    let showSidebar = $state(false)
+    let sidebarTimeout = $state(null)
+    let selectedNoteId = $state(null)
+
 
     // Check if Google Tasks is available (Chrome only)
     const googleTasksAvailable = isChrome()
@@ -29,6 +35,25 @@
 
     function closeSettings() {
         showSettings = false
+    }
+
+    function handleMouseMove(event) {
+        if (event.clientX <= 20) {
+            clearTimeout(sidebarTimeout)
+            showSidebar = true
+        } else if (event.clientX > 340) {
+            sidebarTimeout = setTimeout(() => {
+                showSidebar = false
+            }, 300)
+        }
+    }
+
+    function handleNoteSelect(noteId) {
+        selectedNoteId = noteId
+    }
+
+        function closeNotePage() {
+        selectedNoteId = null
     }
 
     function handleGlobalKeydown(event) {
@@ -129,9 +154,11 @@
     $effect(() => {
         saveSettings(settings)
     })
+    
 </script>
 
-<svelte:window onkeydown={handleGlobalKeydown} />
+<svelte:window on:mousemove={handleMouseMove}  onkeydown={handleGlobalKeydown} />
+
 
 <main>
     <div class="container">
@@ -169,7 +196,15 @@
         settings
     </button>
 
+
     <Settings {showSettings} {closeSettings} />
+
+    <Sidebar {showSidebar} onNoteSelect={handleNoteSelect} />
+        <Settings {showSettings} {closeSettings} />
+        
+            {#if selectedNoteId}
+                    <NotePage noteId={selectedNoteId} onClose={closeNotePage} />
+                        {/if}
 </main>
 
 <style>
@@ -197,6 +232,7 @@
         right: 0;
         padding: 1rem 1.5rem;
         opacity: 0;
+        transition: opacity 0.2s ease;
         z-index: 100;
         color: var(--txt-3);
     }
